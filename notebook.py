@@ -18,6 +18,13 @@ class Note:
         "Returns True if filter in memo or tags"
         return search_filter in self.memo or search_filter in self.tags
 
+    def __str__(self):
+        return f"""Your note:
+        id = {self.id}
+        memo = {self.memo}
+        date = {self.creation_date}
+        tags = {self.tags}"""
+
 
 class Notebook:
     "Represents a container with all notes"
