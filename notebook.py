@@ -24,4 +24,25 @@ class Notebook:
 
     def __init__(self):
         self.notes = []
-        
+
+    def search(self, note_filter:str):
+        "Returns list of notes that contain given filter"
+        return [note for note in self.notes if note.match(note_filter)]
+
+    def new_note(self, memo, tags=""):
+        "Adds note to notebook"
+        self.notes.append(Note(memo, tags))
+
+    def modify_memo(self, note_id, memo):
+        "Finds note with its id and changes it"
+        for note in self.notes:
+            if note.id == note_id:
+                note.memo = memo
+                break
+
+    def modify_tags(self, note_id, tags):
+        "Finds note with its id and changes its tags"
+        for note in self.notes:
+            if note.id == note_id:
+                note.tags = tags
+                break
