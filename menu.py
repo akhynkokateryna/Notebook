@@ -1,6 +1,7 @@
 "Menu for Notebook"
 
 import sys
+import time
 from notebook import Notebook
 
 class Menu:
@@ -14,7 +15,8 @@ class Menu:
                         4: self.search_note_id,
                         5: self.change_note,
                         6: self.change_tags,
-                        7: self.quit}
+                        7: self.delete_note,
+                        8: self.quit}
 
 
     def show_options(self):
@@ -25,16 +27,17 @@ class Menu:
         3. Search notes by using filter
         4. Search notes by id
         5. Change note
-        6. Change note's tag
-        7. Quit"""
+        6. Change note's tags
+        7. Delete note
+        8. Quit"""
         )
         print(list_of_options)
 
 
     def show_notes(self):
         "Shows all notes in the notebook"
-        print("Here are the notes.")
         if len(self.notebook.notes) != 0:
+            print("Here are the notes.")
             for note in self.notebook.notes:
                 print(str(note))
         else:
@@ -53,7 +56,6 @@ class Menu:
         note_id = int(input("Enter note's id: "))
         new_tags = input("Enter new tags: \n")
         self.notebook.modify_tags(note_id, new_tags)
-        print("Tags have been modified.")
 
 
     def change_note(self):
@@ -61,19 +63,36 @@ class Menu:
         note_id = int(input("Enter note's id: "))
         new_note = input("Enter new note: \n")
         self.notebook.modify_memo(note_id, new_note)
-        print("Note has been modified.")
 
 
     def search_note_text(self):
         "Searches for note in a notebook using a text filter"
         note_filter = input("Enter a filter (either tag or piece of a note): ")
-        print(self.notebook.search(note_filter))
+        if len(self.notebook.search(note_filter)) != 0:
+            for note in self.notebook.search(note_filter):
+                print(note)
+        else:
+            print("There are no notes with this tag or text.")
 
 
     def search_note_id(self):
         "Searches for note in a notebook using an id filter"
         note_id = int(input("Enter note's id: "))
-        print(self.notebook._search_id(note_id))
+        res = self.notebook._search_id(note_id)
+        if res is None:
+            print("There are no notes with this id.")
+        else:
+            print(res)
+
+
+    def delete_note(self):
+        "Deletes note"
+        note_id = int(input("Enter note's id: "))
+        try:
+            self.notebook.notes.pop(note_id-1)
+            print("Note has been deleted.")
+        except IndexError:
+            print("There is no note with such id.")
 
 
     def quit(self):
@@ -91,6 +110,7 @@ class Menu:
                 self.actions.get(option)()
             else:
                 print("There is no such option.")
+            time.sleep(1)
             print()
 
 

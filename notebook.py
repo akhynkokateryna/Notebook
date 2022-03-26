@@ -34,7 +34,7 @@ class Notebook:
 
     def search(self, note_filter:str):
         "Returns list of notes that contain given filter"
-        return [note for note in self.notes if note.match(note_filter)]
+        return [str(note) for note in self.notes if note.match(note_filter)]
 
     def new_note(self, memo, tags=""):
         "Adds note to notebook"
@@ -45,11 +45,22 @@ class Notebook:
         for note in self.notes:
             if note.id == note_id:
                 return note
+        return None
 
     def modify_memo(self, note_id, memo):
         "Finds note with its id and changes it"
-        self._search_id(note_id).memo = memo
+        note = self._search_id(note_id)
+        if note is not None:
+            note.memo = memo
+            print("Note has been modified.")
+        else:
+            print("There is no such note.")
 
     def modify_tags(self, note_id, tags):
         "Finds note with its id and changes its tags"
-        self._search_id(note_id).tags = tags
+        note = self._search_id(note_id)
+        if note is not None:
+            note.tags = tags
+            print("Tags have been modified.")
+        else:
+            print("There is no such note.")
