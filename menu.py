@@ -8,30 +8,32 @@ class Menu:
 
     def __init__(self):
         self.notebook = Notebook()
-        self.actions = {1: self.show_notes(),
-                        2: self.add_note(),
-                        3: self.search_note_text(),
-                        4: self.search_note_id(),
-                        5: self.change_note(),
-                        6: self.change_tags(),
-                        7: self.quit()}
+        self.actions = {1: self.show_notes,
+                        2: self.add_note,
+                        3: self.search_note_text,
+                        4: self.search_note_id,
+                        5: self.change_note,
+                        6: self.change_tags,
+                        7: self.quit}
 
 
     def show_options(self):
         "List of options"
-        list_of_options = {1: "1. Show notes\n",
-                           2: "2. Add note\n",
-                           3: "3. Search notes by using filter\n",
-                           4: "4. Search notes by id\n",
-                           5: "5. Change note\n",
-                           6: "6. Change note's tag\n",
-                           7: "7. Quit"}
+        list_of_options = (""" Hi! Here is a list of possible actions
+        1. Show notes
+        2. Add note
+        3. Search notes by using filter
+        4. Search notes by id
+        5. Change note
+        6. Change note's tag
+        7. Quit"""
+        )
         print(list_of_options)
 
 
     def show_notes(self):
         "Shows all notes in the notebook"
-        print("Here are the notes")
+        print("Here are the notes.")
         if len(self.notebook.notes) != 0:
             for note in self.notebook.notes:
                 print(str(note))
@@ -86,9 +88,10 @@ class Menu:
             self.show_options()
             option = int(input("Enter number of option: "))
             if option in self.actions:
-                self.actions[option]()
+                self.actions.get(option)()
             else:
                 print("There is no such option.")
+            print()
 
 
 if __name__=="__main__":
