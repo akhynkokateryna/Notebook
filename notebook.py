@@ -40,16 +40,16 @@ class Notebook:
         "Adds note to notebook"
         self.notes.append(Note(memo, tags))
 
-    def modify_memo(self, note_id, memo):
-        "Finds note with its id and changes it"
+    def _search_id(self, note_id):
+        "Returns note with given id"
         for note in self.notes:
             if note.id == note_id:
-                note.memo = memo
-                break
+                return note
+
+    def modify_memo(self, note_id, memo):
+        "Finds note with its id and changes it"
+        self._search_id(note_id).memo = memo
 
     def modify_tags(self, note_id, tags):
         "Finds note with its id and changes its tags"
-        for note in self.notes:
-            if note.id == note_id:
-                note.tags = tags
-                break
+        self._search_id(note_id).tags = tags
